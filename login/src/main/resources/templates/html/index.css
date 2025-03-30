@@ -1,0 +1,56 @@
+#telalogin{
+background-color: whitesmoke;
+height: 400px;
+width: 400px;
+margin-left: 39%;
+border: 1px solid black;
+margin-top: 150px;
+
+
+}
+
+h1{
+   margin-left: 90px;
+   color: grey;
+}
+
+#Users{
+
+    margin-left: 80px;
+    border-radius: 10px;
+    height: 30px;
+    width: 300px;
+    font-size: 15px;
+
+}
+
+#senha{
+
+    margin-left: 80px;
+    border-radius: 10px;
+    height: 30px;
+    width: 300px;
+    font-size: 15px;
+
+}
+
+#botaos{
+    background-color: green;
+
+    margin-top: 40px;
+    color: white;
+    width: 190px;
+    height: 30px;
+    margin-left: 100px;
+    font-size: 20px;
+}
+
+
+
+label{
+    display: flex;
+    font-size: 25px;
+    color: grey;
+    margin-left: 20px;
+}
+
