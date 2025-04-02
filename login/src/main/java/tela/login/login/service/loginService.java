@@ -7,12 +7,17 @@ import javax.crypto.SecretKey;
 
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import tela.login.login.Entitys.LoginDto;
 import tela.login.login.Entitys.Register;
+import tela.login.login.Util.JwtUtil;
+
 import java.util.logging.Logger;
 
 
@@ -23,31 +28,39 @@ public class loginService {
   @Autowired
   RegisterRepository repository;
 
-  private static final SecretKey SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+  @Autowired
+  JwtUtil jwtUtil;
+
+
+
+
   private static final Logger LOGGER = Logger.getLogger(loginService.class.getName());
-  public static SecretKey getSecretKey() {
-      return SECRET_KEY;
-  }
-
-  private static final long EXPIRATION_TIME = 86400000;
-
-    public Register auntenticao( String nome, String senha ){
 
 
-        Register auth = repository.findByNome(nome);
-        if( auth != null && BCrypt.checkpw( senha , auth.getSenha())){
-            return repository.findByNome(nome);
 
-            
+  @Autowired
+  private PasswordEncoder passwordEncoder;
+  
+  public String  auntenticao(LoginDto loginDTO ){
 
-        }
 
-        return null;
+    Register auth = repository.findByNome(loginDTO.getNome());
+    if (auth != null && passwordEncoder.matches(loginDTO.getSenha(), auth.getSenha())) {
+
+
+
+        return jwtUtil.GerarToken(auth.getNome(),  auth.getRole());
+
         
+
     }
 
+    return null;
+    
+}
 
-    public String GerarToken(String nome){
+
+    /*public String GerarToken(String nome){
         try {
             String token = Jwts.builder()
             .setSubject(nome)
@@ -64,6 +77,6 @@ public class loginService {
              return null;
         }
 
-    }
+    }/* */
     
 }

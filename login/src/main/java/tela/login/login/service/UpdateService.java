@@ -26,6 +26,7 @@ public class UpdateService {
             usuario.setDataNasc(novoUsuario.getDataNasc());
             usuario.setEmail(novoUsuario.getEmail());
             usuario.setSenha(novoUsuario.getSenha());
+            usuario.setRole(novoUsuario.getRole());
 
             return repository.save(usuario);
 

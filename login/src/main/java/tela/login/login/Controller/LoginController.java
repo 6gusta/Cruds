@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import tela.login.login.Entitys.LoginDto;
 import tela.login.login.Entitys.Register;
 import tela.login.login.service.DeleteService;
 import tela.login.login.service.GetService;
@@ -30,18 +31,23 @@ public class LoginController {
         this.getService = getService;
         this.updateService = updatService;
     }
-
     @PostMapping("/login")
-    public ResponseEntity<String> send(@RequestBody Register auth) {
-        Register user = loginService.auntenticao(auth.getNome(), auth.getSenha());
-                      
-
-        if (user != null) {
-            return ResponseEntity.ok("Login bem-sucedido");
+    public ResponseEntity<String> send(@RequestBody LoginDto loginDTO) {
+        try {
+            String user = loginService.auntenticao(loginDTO);
+    
+            if (user != null) {
+                return ResponseEntity.ok("Login bem-sucedido: " + user);
+            }
+    
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciais inválidas");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro interno no servidor: " + e.getMessage());
         }
-
-        return ResponseEntity.status(401).body("Credenciais inválidas");
     }
+    
+    
 
     @PostMapping("/register")
     public ResponseEntity<String> cadastro(@RequestBody Register register) {
@@ -51,7 +57,8 @@ public class LoginController {
                 register.getSenha(),
                 register.getEmail(),
                 register.getTel(),
-                register.getDataNasc()
+                register.getDataNasc(),
+                register.getRole()
             );
 
             if (cadastro != null) {
@@ -107,7 +114,19 @@ public class LoginController {
     }
 
 
+   
 
 
+
+    @GetMapping("/user/profile")
+    public ResponseEntity<String> userProfile(){
+        return ResponseEntity.ok(" bem vindo ao perfil do usuario");
+    }
+
+    @GetMapping("/admin/dashboard")
+    public ResponseEntity<String> adminDashboard(){
+        return ResponseEntity.ok(" bem-vindo  ao perfil  de Admin");
+    }
 
 }
+

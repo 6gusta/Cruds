@@ -26,21 +26,17 @@ public class RegisterService {
         this.registerRepository = registerRepository;
     }
 
-    private static final SecretKey SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+ 
+   
 
-    public static SecretKey getSecretKey() {
-        return SECRET_KEY;
-    }
-
-    private static final long EXPIRATION_TIME = 86400000; // 24 horas em milissegundos
-
-    public Register cadastro(String nome, String senha, String email, String tel, String dataNasc) {
+    public Register cadastro(String nome, String senha, String email, String tel, String dataNasc, String role) {
         try {
             Register cadastro = new Register();
             cadastro.setNome(nome);
             cadastro.setSenha(BCrypt.hashpw(senha, BCrypt.gensalt()));
             cadastro.setEmail(email);
             cadastro.setTel(tel);
+            cadastro.setRole(role);
 
             // Conversão segura de String para LocalDate
             try {

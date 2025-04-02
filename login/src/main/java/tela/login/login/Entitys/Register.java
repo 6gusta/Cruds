@@ -24,6 +24,7 @@ public class Register {
     private String dataNasc;
     private String email;
     private String senha;
+    private String role;
     
     
 }
